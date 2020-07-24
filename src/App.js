@@ -4,11 +4,11 @@ import api from "./services/api";
 import "./styles.css";
 
 function App() {
-  const [respositories, setRespotiories] = useState([]);
+  const [respositories, setRepositories] = useState([]);
 
   useEffect(() => {
     api.get("/repositories").then(res => {
-      setRespotiories(res.data);
+      setRepositories(res.data);
     });
   }, []);
 
@@ -21,13 +21,19 @@ function App() {
 
     api.post("/repositories", repository).then(res => {
       if (res.data && res.data.id) {
-        setRespotiories([...respositories, res.data]);
+        setRepositories([...respositories, res.data]);
       }
     });
   }
 
   async function handleRemoveRepository(id) {
-    // TODO
+    api.delete(`/repositories/${id}`).then(() => {
+      const FilteredRespositories = respositories.filter(
+        repository => repository.id !== id
+      );
+
+      setRepositories(FilteredRespositories);
+    });
   }
 
   return (
