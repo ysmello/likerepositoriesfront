@@ -13,7 +13,17 @@ function App() {
   }, []);
 
   async function handleAddRepository() {
-    // TODO
+    const repository = {
+      title: "New Repository",
+      url: "https://github.com/ysmello/likerepositoriesfront",
+      tech: ["Nodejs"]
+    };
+
+    api.post("/repositories", repository).then(res => {
+      if (res.data && res.data.id) {
+        setRespotiories([...respositories, res.data]);
+      }
+    });
   }
 
   async function handleRemoveRepository(id) {
